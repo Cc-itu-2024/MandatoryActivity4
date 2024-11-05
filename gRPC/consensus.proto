@@ -6,25 +6,12 @@ option go_package = "/gRPC";
 
 import "google/protobuf/timestamp.proto";
 
-
-message SendToken{
-    string token = 1;
-}
-
-message Void{
-    
-}
-
-message RequestAccessMessage {
-    int64 lamport_time = 1;
-    int32 node_id = 2;
-}
-
-message ReleaseAccessMessage {
+message SendToken {
     int32 node_id = 1;
 }
 
-service consensus {
-    rpc RequestAccess(RequestAccessMessage) returns (Void);
-    rpc ReleaseAccess(ReleaseAccessMessage) returns (Void);
+message Void {}
+
+service Consensus {
+    rpc Token(SendToken) returns (Void);
 }

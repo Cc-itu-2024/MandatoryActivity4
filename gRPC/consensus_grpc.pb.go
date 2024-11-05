@@ -19,16 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Consensus_RequestAccess_FullMethodName = "/gRPC.consensus/RequestAccess"
-	Consensus_ReleaseAccess_FullMethodName = "/gRPC.consensus/ReleaseAccess"
+	Consensus_Token_FullMethodName = "/gRPC.Consensus/Token"
 )
 
 // ConsensusClient is the client API for Consensus service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ConsensusClient interface {
-	RequestAccess(ctx context.Context, in *RequestAccessMessage, opts ...grpc.CallOption) (*Void, error)
-	ReleaseAccess(ctx context.Context, in *ReleaseAccessMessage, opts ...grpc.CallOption) (*Void, error)
+	Token(ctx context.Context, in *SendToken, opts ...grpc.CallOption) (*Void, error)
 }
 
 type consensusClient struct {
@@ -39,20 +37,10 @@ func NewConsensusClient(cc grpc.ClientConnInterface) ConsensusClient {
 	return &consensusClient{cc}
 }
 
-func (c *consensusClient) RequestAccess(ctx context.Context, in *RequestAccessMessage, opts ...grpc.CallOption) (*Void, error) {
+func (c *consensusClient) Token(ctx context.Context, in *SendToken, opts ...grpc.CallOption) (*Void, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Void)
-	err := c.cc.Invoke(ctx, Consensus_RequestAccess_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *consensusClient) ReleaseAccess(ctx context.Context, in *ReleaseAccessMessage, opts ...grpc.CallOption) (*Void, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Void)
-	err := c.cc.Invoke(ctx, Consensus_ReleaseAccess_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Consensus_Token_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -63,8 +51,7 @@ func (c *consensusClient) ReleaseAccess(ctx context.Context, in *ReleaseAccessMe
 // All implementations must embed UnimplementedConsensusServer
 // for forward compatibility.
 type ConsensusServer interface {
-	RequestAccess(context.Context, *RequestAccessMessage) (*Void, error)
-	ReleaseAccess(context.Context, *ReleaseAccessMessage) (*Void, error)
+	Token(context.Context, *SendToken) (*Void, error)
 	mustEmbedUnimplementedConsensusServer()
 }
 
@@ -75,11 +62,8 @@ type ConsensusServer interface {
 // pointer dereference when methods are called.
 type UnimplementedConsensusServer struct{}
 
-func (UnimplementedConsensusServer) RequestAccess(context.Context, *RequestAccessMessage) (*Void, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RequestAccess not implemented")
-}
-func (UnimplementedConsensusServer) ReleaseAccess(context.Context, *ReleaseAccessMessage) (*Void, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReleaseAccess not implemented")
+func (UnimplementedConsensusServer) Token(context.Context, *SendToken) (*Void, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Token not implemented")
 }
 func (UnimplementedConsensusServer) mustEmbedUnimplementedConsensusServer() {}
 func (UnimplementedConsensusServer) testEmbeddedByValue()                   {}
@@ -102,38 +86,20 @@ func RegisterConsensusServer(s grpc.ServiceRegistrar, srv ConsensusServer) {
 	s.RegisterService(&Consensus_ServiceDesc, srv)
 }
 
-func _Consensus_RequestAccess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestAccessMessage)
+func _Consensus_Token_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ConsensusServer).RequestAccess(ctx, in)
+		return srv.(ConsensusServer).Token(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Consensus_RequestAccess_FullMethodName,
+		FullMethod: Consensus_Token_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConsensusServer).RequestAccess(ctx, req.(*RequestAccessMessage))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Consensus_ReleaseAccess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReleaseAccessMessage)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConsensusServer).ReleaseAccess(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Consensus_ReleaseAccess_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConsensusServer).ReleaseAccess(ctx, req.(*ReleaseAccessMessage))
+		return srv.(ConsensusServer).Token(ctx, req.(*SendToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -142,16 +108,12 @@ func _Consensus_ReleaseAccess_Handler(srv interface{}, ctx context.Context, dec 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Consensus_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "gRPC.consensus",
+	ServiceName: "gRPC.Consensus",
 	HandlerType: (*ConsensusServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "RequestAccess",
-			Handler:    _Consensus_RequestAccess_Handler,
-		},
-		{
-			MethodName: "ReleaseAccess",
-			Handler:    _Consensus_ReleaseAccess_Handler,
+			MethodName: "Token",
+			Handler:    _Consensus_Token_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
