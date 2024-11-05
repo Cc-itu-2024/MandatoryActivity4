@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package gRPC;
+
+option go_package = "/gRPC";
+
+import "google/protobuf/timestamp.proto";
+
+
+message SendToken{
+    string token = 1;
+}
+
+message void{
+    
+}
+
+service consensus {
+    rpc Token(SendToken) returns (void);
+}
