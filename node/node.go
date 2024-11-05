@@ -62,15 +62,12 @@ func (s *Node) enterCriticalSection() {
 
 
 func (s *Node) passToken() {
-	log.Print("YOLO")
 
 	if !s.hasToken {
 		log.Printf("Node %d does not have the token to pass.\n", s.nodeId)
 		return
 	}
 	s.hasToken = false
-
-	log.Print("YOLO2")
 
 	log.Printf("Node %d passing the token to Node %d\n", s.nodeId, s.nextNodeId)
 	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", s.ports[s.nextNodeId]), grpc.WithInsecure())
