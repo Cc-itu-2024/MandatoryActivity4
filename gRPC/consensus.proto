@@ -11,10 +11,20 @@ message SendToken{
     string token = 1;
 }
 
-message void{
+message Void{
     
 }
 
+message RequestAccessMessage {
+    int64 lamport_time = 1;
+    int32 node_id = 2;
+}
+
+message ReleaseAccessMessage {
+    int32 node_id = 1;
+}
+
 service consensus {
-    rpc Token(SendToken) returns (void);
+    rpc RequestAccess(RequestAccessMessage) returns (Void);
+    rpc ReleaseAccess(ReleaseAccessMessage) returns (Void);
 }
