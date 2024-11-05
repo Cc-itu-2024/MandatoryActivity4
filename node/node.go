@@ -17,13 +17,13 @@ import (
 
 type Node struct {
 	pb.UnimplementedConsensusServer
-	client     pb.ConsensusClient
-	port       int
-	ports      []int
-	mu         sync.Mutex
-	nodeId     int
+	client pb.ConsensusClient
+	port int
+	ports []int
+	mu sync.Mutex
+	nodeId int
 	nextNodeId int
-	hasToken   bool
+	hasToken bool
 }
 
 
@@ -52,10 +52,10 @@ func (s *Node) Token(ctx context.Context, req *pb.SendToken) (*pb.Void, error) {
 
 func (s *Node) enterCriticalSection() {
 	if s.hasToken {
-		log.Printf("Node %d entering critical section\n", s.nodeId)
+		log.Printf("Node %d entered critical section\n", s.nodeId)
 		time.Sleep(2 * time.Second)
 
-		log.Printf("Node %d exiting critical section\n", s.nodeId)
+		log.Printf("Node %d exited critical section\n", s.nodeId)
 		s.passToken()
 	}
 }
@@ -69,7 +69,7 @@ func (s *Node) passToken() {
 	}
 	s.hasToken = false
 
-	log.Printf("Node %d passing the token to Node %d\n", s.nodeId, s.nextNodeId)
+	log.Printf("Node %d passed the token to Node %d\n", s.nodeId, s.nextNodeId)
 	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", s.ports[s.nextNodeId]), grpc.WithInsecure())
 	if err != nil {
 		log.Printf("Failed to connect to next node on port %d: %v", s.ports[s.nextNodeId], err)
@@ -96,7 +96,7 @@ func (s *Node) StartServer() {
 	grpcServer := grpc.NewServer()
 	pb.RegisterConsensusServer(grpcServer, s)
 
-	log.Printf("Node %d is starting server on port %d", s.nodeId, s.port)
+	log.Printf("Node %d started server on port %d", s.nodeId, s.port)
 	if err := grpcServer.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve gRPC server on port %d: %v", s.port, err)
 	}
@@ -118,7 +118,7 @@ func main() {
 
 
 	for i := 0; i < numNodes; i++ {
-		port := basePort + i*10 
+		port := basePort + i*2 
 		ports[i] = port
 		log.Printf("Assigned port %d to Node %d", port, i)
 	}
@@ -136,7 +136,7 @@ func main() {
 	time.Sleep(1 * time.Second)
 
 	if nodes[0].hasToken {
-		log.Printf("Manually starting token passing from Node %d\n", nodes[0].nodeId)
+		log.Printf("Started token passing from Node %d\n", nodes[0].nodeId)
 		nodes[0].passToken()
 	} else {
 		log.Printf("Node %d does not have the token to start\n", nodes[0].nodeId)
