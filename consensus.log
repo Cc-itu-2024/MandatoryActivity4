@@ -1,40 +1,20 @@
-2024/11/05 18:07:09 Assigned port 5100 to Node 0
-2024/11/05 18:07:09 Assigned port 5102 to Node 1
-2024/11/05 18:07:09 Assigned port 5104 to Node 2
-2024/11/05 18:07:09 Node 2 started server on port 5104
-2024/11/05 18:07:09 Node 1 started server on port 5102
-2024/11/05 18:07:09 Node 0 started server on port 5100
-2024/11/05 18:07:10 Started token passing from Node 0
-2024/11/05 18:07:10 Node 0 passed the token to Node 1
-2024/11/05 18:07:10 Node 1 received the token from Node 0
-2024/11/05 18:07:10 Node 1 entered critical section
-2024/11/05 18:07:12 Node 1 exited critical section
-2024/11/05 18:07:12 Node 1 passed the token to Node 2
-2024/11/05 18:07:12 Node 2 received the token from Node 1
-2024/11/05 18:07:12 Node 2 entered critical section
-2024/11/05 18:07:14 Node 2 exited critical section
-2024/11/05 18:07:14 Node 2 passed the token to Node 0
-2024/11/05 18:07:14 Node 0 received the token from Node 2
-2024/11/05 18:07:14 Node 0 entered critical section
-2024/11/05 18:07:16 Node 0 exited critical section
-2024/11/05 18:07:16 Node 0 passed the token to Node 1
-2024/11/05 18:32:41 Assigned port 5100 to Node 0
-2024/11/05 18:32:41 Assigned port 5102 to Node 1
-2024/11/05 18:32:41 Assigned port 5104 to Node 2
-2024/11/05 18:32:41 Node 2 started server on port 5104
-2024/11/05 18:32:41 Node 0 started server on port 5100
-2024/11/05 18:32:41 Node 1 started server on port 5102
-2024/11/05 18:32:42 Started token passing from Node 0
-2024/11/05 18:32:42 Node 0 passed the token to Node 1
-2024/11/05 18:32:42 Node 1 received the token from Node 0
-2024/11/05 18:32:42 Node 1 entered critical section
-2024/11/05 18:32:44 Node 1 exited critical section
-2024/11/05 18:32:44 Node 1 passed the token to Node 2
-2024/11/05 18:32:44 Node 2 received the token from Node 1
-2024/11/05 18:32:44 Node 2 entered critical section
-2024/11/05 18:32:46 Node 2 exited critical section
-2024/11/05 18:32:46 Node 2 passed the token to Node 0
-2024/11/05 18:32:46 Node 0 received the token from Node 2
-2024/11/05 18:32:46 Node 0 entered critical section
-2024/11/05 18:32:48 Node 0 exited critical section
-2024/11/05 18:32:48 Node 0 passed the token to Node 1
+2024/11/05 18:36:24 Assigned port 5100 to Node 0
+2024/11/05 18:36:24 Assigned port 5102 to Node 1
+2024/11/05 18:36:24 Assigned port 5104 to Node 2
+2024/11/05 18:36:24 Node 2 started server on port 5104
+2024/11/05 18:36:24 Node 0 started server on port 5100
+2024/11/05 18:36:24 Node 1 started server on port 5102
+2024/11/05 18:36:25 Started token passing from Node 0
+2024/11/05 18:36:25 Node 0 passed the token to Node 1
+2024/11/05 18:36:25 Node 1 received the token from Node 0
+2024/11/05 18:36:25 Node 1 entered critical section
+2024/11/05 18:36:27 Node 1 exited critical section
+2024/11/05 18:36:27 Node 1 passed the token to Node 2
+2024/11/05 18:36:27 Node 2 received the token from Node 1
+2024/11/05 18:36:27 Node 2 entered critical section
+2024/11/05 18:36:29 Node 2 exited critical section
+2024/11/05 18:36:29 Node 2 passed the token to Node 0
+2024/11/05 18:36:29 Node 0 received the token from Node 2
+2024/11/05 18:36:29 Node 0 entered critical section
+2024/11/05 18:36:31 Node 0 exited critical section
+2024/11/05 18:36:31 Node 0 passed the token to Node 1
