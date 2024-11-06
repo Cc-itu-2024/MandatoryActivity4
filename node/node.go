@@ -14,18 +14,16 @@ import (
 	"google.golang.org/grpc"
 )
 
-
 type Node struct {
 	pb.UnimplementedConsensusServer
-	client pb.ConsensusClient
-	port int
-	ports []int
-	mu sync.Mutex
-	nodeId int
+	client     pb.ConsensusClient
+	port       int
+	ports      []int
+	mu         sync.Mutex
+	nodeId     int
 	nextNodeId int
-	hasToken bool
+	hasToken   bool
 }
-
 
 func NewNodeServer(nodeId, nextNodeId, port int, ports []int, hasToken bool) *Node {
 	return &Node{
@@ -36,7 +34,6 @@ func NewNodeServer(nodeId, nextNodeId, port int, ports []int, hasToken bool) *No
 		hasToken:   hasToken,
 	}
 }
-
 
 func (s *Node) Token(ctx context.Context, req *pb.SendToken) (*pb.Void, error) {
 	s.mu.Lock()
@@ -49,7 +46,6 @@ func (s *Node) Token(ctx context.Context, req *pb.SendToken) (*pb.Void, error) {
 	return &pb.Void{}, nil
 }
 
-
 func (s *Node) enterCriticalSection() {
 	if s.hasToken {
 		log.Printf("Node %d entered critical section\n", s.nodeId)
@@ -59,7 +55,6 @@ func (s *Node) enterCriticalSection() {
 		s.passToken()
 	}
 }
-
 
 func (s *Node) passToken() {
 
@@ -86,7 +81,6 @@ func (s *Node) passToken() {
 	}
 }
 
-
 func (s *Node) StartServer() {
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", s.port))
 	if err != nil {
@@ -102,7 +96,6 @@ func (s *Node) StartServer() {
 	}
 }
 
-
 func main() {
 	logFile, err := os.OpenFile("consensus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -116,22 +109,19 @@ func main() {
 	nodes := make([]*Node, numNodes)
 	ports := make([]int, numNodes)
 
-
 	for i := 0; i < numNodes; i++ {
-		port := basePort + i*2 
+		port := basePort + i*2
 		ports[i] = port
 		log.Printf("Assigned port %d to Node %d", port, i)
 	}
 
-
 	for i := 0; i < numNodes; i++ {
-		hasToken := (i == 0) 
+		hasToken := (i == 0)
 		nextNodeId := (i + 1) % numNodes
 
 		nodes[i] = NewNodeServer(i, nextNodeId, ports[i], ports, hasToken)
 		go nodes[i].StartServer()
 	}
-
 
 	time.Sleep(1 * time.Second)
 
