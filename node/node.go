@@ -16,22 +16,22 @@ import (
 
 type Node struct {
 	pb.UnimplementedConsensusServer
-	client     pb.ConsensusClient
-	port       int
-	ports      []int
-	mu         sync.Mutex
-	nodeId     int
+	client pb.ConsensusClient
+	port int
+	ports []int
+	mu sync.Mutex
+	nodeId int
 	nextNodeId int
-	hasToken   bool
+	hasToken bool
 }
 
 func NewNodeServer(nodeId, nextNodeId, port int, ports []int, hasToken bool) *Node {
 	return &Node{
-		nodeId:     nodeId,
+		nodeId: nodeId,
 		nextNodeId: nextNodeId,
-		port:       port,
-		ports:      ports,
-		hasToken:   hasToken,
+		port: port,
+		ports: ports,
+		hasToken: hasToken,
 	}
 }
 
